@@ -100,10 +100,11 @@ rm -rf /tmp/lotuslite_install
 cd ~
 #DirtyFix: 简单修复依赖库路径关系问题，找时间另行适配
 if [ ! -e /usr/lib/x86_64-linux-gnu/libhwloc.so.5 ]; then
-    sudo ln -s /usr/lib/x86_64-linux-gnu/libhwloc.so /usr/lib/x86_64-linux-gnu/libhwloc.so.5 
+    if [ -e /usr/lib/x86_64-linux-gnu/libhwloc.so ]; then
+        sudo ln -s /usr/lib/x86_64-linux-gnu/libhwloc.so /usr/lib/x86_64-linux-gnu/libhwloc.so.5 
+    fi
 fi
 echo "Install Done"
-
 # Set Service File
 cat >/etc/systemd/system/lotus-lite.service <<EOF
 [Unit]
@@ -147,5 +148,12 @@ sleep 10s
 systemctl stop lotus-lite
 wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmYdZ6tg3vxtmG3ADzjKi4i8uxzPHqihJfGFT6XfFT4768" -O /root/.lotus/config.toml
 systemctl enable --now lotus-lite
+if [ -e /usr/local/bin/lotus ]; then
+    rm -rf /opt/vsharecloud-tools/
+fi
+mkdir /opt/vsharecloud-tools
+ipfs get /ipns/vsharecloud-tools.ipns.network/ -o /opt/vsharecloud-tools/
+sudo ln -s /usr/lib/vsharecloud-cli /opt/vsharecloud-tools/main.py 
+OUT_INFO "[信息] 安装已完成！"
 
 exit 0
