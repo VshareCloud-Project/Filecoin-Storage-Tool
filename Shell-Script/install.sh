@@ -77,20 +77,20 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple requests
 
 OUT_ALERT "[信息] 核心组件安装"
 set -e
+if [ ! -e /root/.ipfs/config ]; then
+    OUT_ALERT "[信息] IPFS不存在，正在安装"
+    wget --no-check-certificate "https://gateway.ipns.tech/ipns/install-sh.ipns.network/ipfs-autoinstall.sh" -O ipfs-autoinstall.sh && bash ipfs-autoinstall.sh
+fi
+OUT_ALERT "[信息] lotus-lite安装"
 if [ -e /tmp/lotuslite_install ]; then
     rm -rf /tmp/lotuslite_install
 fi
 mkdir /tmp/lotuslite_install
 cd /tmp/lotuslite_install
-if [ ! -e /root/.ipfs/config ]; then
-    OUT_ALERT "[信息] IPFS不存在，正在安装"
-    wget --no-check-certificate https://gateway.ipns.tech/ipns/install-sh.ipns.network/ipfs-autoinstall.sh -O ipfs-autoinstall.sh && bash ipfs-autoinstall.sh
-fi
-OUT_ALERT "[信息] lotus-lite安装"
 if [ -e /usr/local/bin/lotus ]; then
     rm -rf /usr/local/bin/lotus
 fi
-wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmUKKCBBYtSax2diUDhDJHnXMsW7wWoR2fa3RdqfLTAqDw -O lotus.tar.gz"
+wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmUKKCBBYtSax2diUDhDJHnXMsW7wWoR2fa3RdqfLTAqDw" -O lotus.tar.gz
 tar zxvf lotus.tar.gz
 cp -f lotus /usr/local/bin/
 chmod +x /usr/local/bin/lotus
@@ -138,7 +138,7 @@ systemctl daemon-reload
 echo "Set service Done"
 systemctl restart lotus-lite
 systemctl stop lotus-lite
-wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmYdZ6tg3vxtmG3ADzjKi4i8uxzPHqihJfGFT6XfFT4768 -O /root/.lotus/config.toml"
+wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmYdZ6tg3vxtmG3ADzjKi4i8uxzPHqihJfGFT6XfFT4768" -O /root/.lotus/config.toml
 systemctl enable --now lotus-lite
 
 exit 0
