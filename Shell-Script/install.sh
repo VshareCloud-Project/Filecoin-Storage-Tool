@@ -70,7 +70,7 @@ if [[ ${release} == "centos" ]]; then
     sudo yum install wget gcc python3 python3-pip mariadb-devel python3-devel expect -y
     sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; sudo yum install -y git gcc bzr jq pkgconfig clang llvm mesa-libGL-devel opencl-headers ocl-icd ocl-icd-devel hwloc-devel
 else
-    sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev libhwloc5 wget python3 python3-pip expect -y
+    sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev wget python3 python3-pip expect -y
     sudo apt upgrade -y
 fi
 
@@ -152,9 +152,9 @@ if [ -e /usr/local/bin/lotus ]; then
     rm -rf /opt/vsharecloud-tools/
 fi
 mkdir /opt/vsharecloud-tools
-ipfs get /ipns/vsharecloud-tools.ipns.network/ -o /opt/vsharecloud-tools/
+ipfs get /ipns/vsharecloud-tools.ipns.network/ -o c
 chmod +x /opt/vsharecloud-tools/main.py
-sudo ln -s /usr/lib/vsharecloud-cli /opt/vsharecloud-tools/main.py 
+sudo ln -s /opt/vsharecloud-tools/main.py /usr/bin/vsharecloud-cli
 OUT_INFO "[信息] 安装已完成！"
 
 exit 0
