@@ -70,7 +70,7 @@ if [[ ${release} == "centos" ]]; then
     sudo yum install wget gcc python3 python3-pip mariadb-devel python3-devel expect -y
     sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; sudo yum install -y git gcc bzr jq pkgconfig clang llvm mesa-libGL-devel opencl-headers ocl-icd ocl-icd-devel hwloc-devel
 else
-    sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev wget python3 python3-pip expect -y
+    sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev libhwloc5 wget python3 python3-pip expect -y
     sudo apt upgrade -y
 fi
 
