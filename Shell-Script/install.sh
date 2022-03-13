@@ -77,16 +77,16 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple requests
 
 OUT_ALERT "[信息] 核心组件安装"
 set -e
-if [ ! -e /root/.ipfs/config ]; then
-    OUT_ALERT "[信息] IPFS不存在，正在安装"
-    wget --no-check-certificate https://gateway.ipns.tech/ipns/install-sh.ipns.network/ipfs-autoinstall.sh -O ipfs-autoinstall.sh && bash ipfs-autoinstall.sh
-fi
-OUT_ALERT "[信息] lotus-lite安装"
 if [ -e /tmp/lotuslite_install ]; then
     rm -rf /tmp/lotuslite_install
 fi
 mkdir /tmp/lotuslite_install
 cd /tmp/lotuslite_install
+if [ ! -e /root/.ipfs/config ]; then
+    OUT_ALERT "[信息] IPFS不存在，正在安装"
+    wget --no-check-certificate https://gateway.ipns.tech/ipns/install-sh.ipns.network/ipfs-autoinstall.sh -O ipfs-autoinstall.sh && bash ipfs-autoinstall.sh
+fi
+OUT_ALERT "[信息] lotus-lite安装"
 if [ -e /usr/local/bin/lotus ]; then
     rm -rf /usr/local/bin/lotus
 fi
