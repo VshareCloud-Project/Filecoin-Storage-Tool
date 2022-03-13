@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 import json
 import os
 import random
@@ -15,14 +16,16 @@ def get_cid():
         else:
             if os.path.isfile(file_path):
                 ipfs_add_cmd = """ipfs add %s"""
+                ipfs_cli_output = str(subprocess.check_output(ipfs_add_cmd.split()), "utf-8")
+                cid = ipfs_cli_output.split()[-2]
             elif os.path.isfile(file_path):
                 ipfs_add_cmd = """ipfs add -r %s"""
+                ipfs_cli_output = str(subprocess.check_output(ipfs_add_cmd.split()), "utf-8")
+                cid = ipfs_cli_output.split()[-2]
             else:
                 pass
     else:
         pass
-    ipfs_cli_output = str(subprocess.check_output(ipfs_add_cmd.split()), "utf-8")
-    cid = ipfs_cli_output.split()[-2]
     return cid
 
 def get_vshare_nodeid():
@@ -40,8 +43,8 @@ def ipfs_gc(cid):
     pass
 
 #Main
-mode = input("请选择交易类型（输入纯数字）：\n 1.托管数据至VshareCloud\n 2.托管数据到自定义FileCoin节点\n 3.托管数据到全球FileCoin节点（性价比最高，但是交易成功率与数据可靠性未知）")
-deal_duration = input("请输入交易天数（纯数字）：")
+mode = input(" 1.托管数据至VshareCloud\n 2.托管数据到自定义FileCoin节点\n 3.托管数据到全球FileCoin节点（性价比最高，但是交易成功率与数据可靠性未知）\n 请选择交易类型（输入纯数字）：")
+deal_duration = input("请输入交易天数（纯数字，最低180天）：")
 cid = get_cid()
 if mode == "1":
     minerid = get_vshare_nodeid()
