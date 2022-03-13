@@ -143,6 +143,7 @@ EOF
 systemctl daemon-reload
 echo "Set service Done"
 systemctl start lotus-lite
+sleep 10s
 systemctl stop lotus-lite
 wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmYdZ6tg3vxtmG3ADzjKi4i8uxzPHqihJfGFT6XfFT4768" -O /root/.lotus/config.toml
 systemctl enable --now lotus-lite
