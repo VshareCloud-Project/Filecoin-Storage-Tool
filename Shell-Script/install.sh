@@ -67,9 +67,11 @@ fi
 
 OUT_ALERT "[信息] 依赖软件安装"
 if [[ ${release} == "centos" ]]; then
-    yum install wget gcc python3 python3-pip mariadb-devel python3-devel expect -y
+    sudo yum install wget gcc python3 python3-pip mariadb-devel python3-devel expect -y
+    sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; sudo yum install -y git gcc bzr jq pkgconfig clang llvm mesa-libGL-devel opencl-headers ocl-icd ocl-icd-devel hwloc-devel
 else
-    apt install wget python3 python3-pip expect -y
+    sudo apt install mesa-opencl-icd ocl-icd-opencl-dev gcc git bzr jq pkg-config curl clang build-essential hwloc libhwloc-dev wget python3 python3-pip expect -y
+    sudo apt upgrade -y
 fi
 
 OUT_ALERT "[信息] Py依赖包安装"
@@ -96,6 +98,10 @@ cp -f lotus /usr/local/bin/
 chmod +x /usr/local/bin/lotus
 rm -rf /tmp/lotuslite_install
 cd ~
+#DirtyFix: 简单修复依赖库路径关系问题，找时间另行适配
+if [ ! -e /usr/lib/x86_64-linux-gnu/libhwloc.so.5 ]; then
+    sudo ln -s /usr/lib/x86_64-linux-gnu/libhwloc.so /usr/lib/x86_64-linux-gnu/libhwloc.so.5 
+fi
 echo "Install Done"
 
 # Set Service File
@@ -136,7 +142,7 @@ WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
 echo "Set service Done"
-systemctl restart lotus-lite
+systemctl start lotus-lite
 systemctl stop lotus-lite
 wget --no-check-certificate "https://gateway.ipns.tech/ipfs/QmYdZ6tg3vxtmG3ADzjKi4i8uxzPHqihJfGFT6XfFT4768" -O /root/.lotus/config.toml
 systemctl enable --now lotus-lite
