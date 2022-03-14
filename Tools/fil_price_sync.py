@@ -13,3 +13,5 @@ price_data = get_pirce_data()
 cmd = """/usr/local/bin/lotus-miner storage-deals set-ask --price %s --verified-price 0.000000000000000001 --min-piece-size 16MiB --max-piece-size 60GiB""" % price_data["fil_stable_price"]
 subprocess.run(cmd, shell=True)
 print("价格已更新至：" + str(price_data["fil_stable_price"]))
+#Todo
+#lotus-miner retrieval-deals set-ask --price 0.000000000000000001 --unseal-price 0.000000000000000001
