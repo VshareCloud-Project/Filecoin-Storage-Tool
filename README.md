@@ -41,7 +41,9 @@ root@devmachine:~# vsharecloud-cli
 ```
 ### 注意事项
 1.所有的上链数据都是面向整个网络公开的，如果您用于储存重要的数据，请先将内容进行加密打包后再储存
+
 2.储存交易对于数据大小有一定的要求，建议单笔数据存储交易的数据大小不小于16MiB且不大于60GiB，否则可能不会被接受
+
 3.储存后请自己保存好文件的CID和订单号等信息，便于后续取回数据
 
 #### *关于VshareCloud联盟
@@ -63,3 +65,8 @@ VshareCloud联盟是由本项目发起方组织的节点联盟，优势如下：
 lotus client retrieve --miner <节点ID> <数据CID> /path/to/save
 ```
 等候数据取回即可，取回操作会收取费用
+
+欢迎大家上手测试，有问题请提交Issue~
+#### 社区：
+- 频道：https://t.me/vsharebetter
+- 群组：https://t.me/ipns_tech
