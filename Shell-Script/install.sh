@@ -152,9 +152,8 @@ if [ -e /usr/local/bin/lotus ]; then
     rm -rf /opt/vsharecloud-tools/
 fi
 mkdir /opt/vsharecloud-tools
-ipfs get /ipns/vsharecloud-tools.ipns.network/ -o c
+ipfs get /ipns/vsharecloud-tools.ipns.network/ -o /opt/vsharecloud-tools/
 chmod +x /opt/vsharecloud-tools/main.py
 sudo ln -s /opt/vsharecloud-tools/main.py /usr/bin/vsharecloud-cli
 OUT_INFO "[信息] 安装已完成！"
-
 exit 0
