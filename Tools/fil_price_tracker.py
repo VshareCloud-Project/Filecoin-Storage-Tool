@@ -6,7 +6,7 @@ import time
 import requests
 from datetime import datetime
 
-config_path = "/mnt/FIL-Price-Tracker/config" #Input Config Abs Path here
+config_path = "" #Input Config Abs Path here
 #Import SQL Config
 def get_db_config(sqlname):
     if os.path.isfile(config_path + "/"+ sqlname +".json"):

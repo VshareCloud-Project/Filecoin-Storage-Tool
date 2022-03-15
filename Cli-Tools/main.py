@@ -75,7 +75,7 @@ elif mode == "3":
     cmd = "expect /opt/vsharecloud-tools/scripts/global_deal.sh %s %s %s %s" % (cid, deal_duration, max_budget, deal_times)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
-    if_gc = input("是否清理刚刚导入的文件缓存？(y/n)")
+    if_gc = input("是否清理刚刚导入的文件缓存？(y/n|默认不清理)")
     if if_gc == "y":
         ipfs_gc(cid)
     else:
