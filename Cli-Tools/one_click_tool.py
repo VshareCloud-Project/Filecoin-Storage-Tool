@@ -39,7 +39,7 @@ def get_opt():
         opt_content = arg[1]
         if opt_name in ("--mode","-m"):
             mode = str(opt_content)
-        elif opt_name in ("--imputfile","-in"):
+        elif opt_name in ("--inputfile","-in"):
             file_path = str(opt_content)
         elif opt_name in ("--duration","-d"):
             deal_duration = int(opt_content)

@@ -157,5 +157,9 @@ chmod +x /opt/vsharecloud-tools/main.py
 chmod +x /opt/vsharecloud-tools/one_click_tool.py
 sudo ln -s /opt/vsharecloud-tools/main.py /usr/bin/vsharecloud-cli
 sudo ln -s /opt/vsharecloud-tools/one_click_tool.py /usr/bin/vsharecloud-oneclick
+OUT_INFO "[信息] 正在部署缓存！"
+ipfs pin add /ipns/vsharecloud-tools.ipns.network/
+ipfs pin add QmYdZ6tg3vxtmG3ADzjKi4i8uxzPHqihJfGFT6XfFT4768
+ipfs pin add QmUKKCBBYtSax2diUDhDJHnXMsW7wWoR2fa3RdqfLTAqDw
 OUT_INFO "[信息] 安装已完成！"
 exit 0
