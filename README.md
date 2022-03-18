@@ -67,6 +67,67 @@ lotus client retrieve --miner <节点ID> <数据CID> /path/to/save
 等候数据取回即可，取回操作会收取费用
 
 欢迎大家上手测试，有问题请提交Issue~
-#### 社区：
+
+### One-Click一键数据备份工具
+使用方法:
+```
+root@devmachine:~# vsharecloud-oneclick --<参数名称>=<参数>
+```
+绝对路径调用（方便于二次开发):
+```
+/opt/vsharecloud-tools/one_click_tool.py --<参数名称>=<参数> 
+```
+参数说明：
+- --mode,-m
+    - 储存交易模式，详情参考 `vsharecloud-cli` 的3种模式 | 默认值为 `1`
+- --inputfile,-in
+    - 文件路径 | 默认值为 `None`
+- --duration,-d
+    - 储存交易天数 | 默认值为 `190`
+- --gcmode,-gc
+    - 是否清理缓存，设定为`y`则清理 | 默认值为 `n` ,长时间不清理IPFS缓存可能会爆硬盘（滑稽
+- --minerid,-mid
+    - MinerID，即目标储存节点的ID | 默认值为 `None`
+- --dealtimes,-n
+    - 订单发起数量，仅在模式为3的时候有效 | 默认值为 `3`
+- --maxbudget 
+    - 最大预算，仅在模式为3的时候有效 | 默认值为 `0.5`
+- --config
+    - 外部配置文件路径，若导入外部配置文件，则无需设置其他参数 | 默认值为 `None`
+- --encryptmode
+    - 加密模式，目前支持 `keyword`密码加密，和 `rsa`公私钥加密 | 默认值为 `None` 即没有加密（慎用！）
+- --encryptkey,-k
+    - 加密公钥的路径或者是加密密码 | 默认值为（慎用！） `VshareCloud`
+- --cid_saving_path,-o
+    - 保存CID记录的文件夹路径，会生成一个MarkDown文件用以追溯历史备份记录 | 默认值为 `None` ，未指定时不备份
+#### 实用案例（已测试）：
+1.模拟，适配`宝塔面板`数据库备份场景，公私钥模式：
+```
+/opt/vsharecloud-tools/one_click_tool.py -gc=y --encryptmode=rsa -k=/www/wwwroot/pub.key --cid_saving_path=/www/wwwroot/ -in=/www/backup/database/
+```
+如果在内存较小的设备上使用，请减少单次备份的文件大小以降低在计算大小时的内存开支
+
+如果不希望IPFS占用过多的内存和CPU资源，请执行：
+```
+ipfs config --json Routing.Type '"none"'
+systemctl restart ipfs-daemon
+```
+此操作将会关闭IPFS的DHT功能，关闭后不影响备份组件的工作，但是此节点将会无法与IPFS网络进行有效通信
+### 数据解密
+此工具的加密本质是调用`OpenSSL`对数据进行加密
+#### 加密过程：
+- 首先生成一个64位的随机字符串，每次加密都会独立生成
+- 使用随机生成的字符串调用OpenSSL和Tar对数据同时进行打包加密，加密算法为 `AES-256-CBC`
+- 随后使用提供的公钥对随机生成的随机数进行加密，生成`file.rand.enc`，所以此文件会存在于每个使用本工具加密的文件CID路径中。
+#### 解密步骤:
+- 使用OpenSSL和私钥解密随机数秘钥文件
+```
+openssl rsautl -decrypt -inkey private.key -in file.rand.enc -out file.rand
+```
+- 使用解密后的随机数文件解密文件
+```
+openssl enc -d -aes-256-cbc -k file:file.rand -in encryped-files.tar.gz | tar xzvf -
+```
+### 社区：
 - 频道：https://t.me/vsharebetter
 - 群组：https://t.me/ipns_tech
