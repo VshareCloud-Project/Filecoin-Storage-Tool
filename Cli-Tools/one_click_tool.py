@@ -3,6 +3,7 @@
 import json
 import os
 import sys
+import time
 import shutil
 import random
 import requests
@@ -16,7 +17,7 @@ def get_config(config_path):
     else:
         print("Config文件不存在！请检查文件路径或使用其他模式")
         exit()
-    return config["mode"],config["file_path"],config["deal_duration"],config["if_gc"],config["minerid"],config["deal_times"],config["max_budget"],config["config_path"],config["encrypt_mode"],config["encrypt_key"]
+    return config["mode"],config["file_path"],config["deal_duration"],config["if_gc"],config["minerid"],config["deal_times"],config["max_budget"],config["config_path"],config["encrypt_mode"],config["encrypt_key"],config["cid_saving_path"]
 
 def get_opt():
     #在这里设定参数默认值
@@ -30,6 +31,7 @@ def get_opt():
     config_path = None
     encrypt_mode = None
     encrypt_key = "VshareCloud"
+    cid_saving_path = None
     #===============#
     args = sys.argv
     del args[0]
@@ -57,12 +59,14 @@ def get_opt():
             encrypt_mode = str(opt_content)
         elif opt_name in ("--encryptkey","-k"):
             encrypt_key = str(opt_content)
+        elif opt_name in ("--cid_saving_path","-o"):
+            cid_saving_path = str(opt_content)
         else :
             pass
     if config_path != None:
         return get_config(config_path)
     else:
-        return mode,file_path,deal_duration,if_gc,minerid,deal_times,max_budget,config_path,encrypt_mode,encrypt_key
+        return mode,file_path,deal_duration,if_gc,minerid,deal_times,max_budget,config_path,encrypt_mode,encrypt_key,cid_saving_path
 
 
 def get_cid(file_path,encrypt_mode,encrypt_key):
@@ -130,6 +134,15 @@ def get_vshare_nodeid():
     print("已选取到节点：%s" % minerid)
     return minerid
 
+def backup_cid(cid,cid_saving_path):
+    if cid_saving_path != None:
+        f = open("%s/vshare_cids.md" % cid_saving_path,'a')
+        f.write(str(cid)+ "|" + str(int(time.time())))
+        f.write('\n')
+    else:
+        pass
+    pass
+
 def ipfs_gc(cid):
     print("开始垃圾清理")
     subprocess.run("ipfs pin rm %s" % cid, shell=True)
@@ -148,11 +161,13 @@ max_budget = opt[6]
 config_path = opt[7]
 # encrypt_mode = opt[8]
 # encrypt_key = opt[9]
+cid_saving_path = opt[10]
 if mode == "1":
     minerid = get_vshare_nodeid()
     cmd = "expect /opt/vsharecloud-tools/scripts/single_deal.sh %s %s %s" % (cid, deal_duration, minerid)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
+    backup_cid(cid,cid_saving_path)
     if if_gc == "y":
         ipfs_gc(cid)
     else:
@@ -162,6 +177,7 @@ elif mode == "2":
     cmd = "expect /opt/vsharecloud-tools/scripts/single_deal.sh %s %s %s" % (cid, deal_duration, minerid)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
+    backup_cid(cid,cid_saving_path)
     if if_gc == "y":
         ipfs_gc(cid)
     else:
@@ -171,6 +187,7 @@ elif mode == "3":
     cmd = "expect /opt/vsharecloud-tools/scripts/global_deal.sh %s %s %s %s" % (cid, deal_duration, max_budget, deal_times)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
+    backup_cid(cid,cid_saving_path)
     if if_gc == "y":
         ipfs_gc(cid)
     else:
