@@ -15,7 +15,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 - 2.主要组件安装
 ```
-wget --no-check-certificate https://gateway.ipns.tech/ipns/vsharecloud-tools-install.ipns.network/install.sh -O install.sh && bash install.sh
+wget --no-check-certificate https://gateway.ipns.tech/ipns/vsharecloud-tools-install.ipns.network/install.sh -O install.sh && sudo bash install.sh
 ```
 - 以上脚本将在您的机器内安装：
     - IPFS Node | IPFS节点程序
