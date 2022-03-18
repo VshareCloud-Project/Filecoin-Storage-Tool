@@ -81,7 +81,7 @@ def get_cid(file_path,encrypt_mode,encrypt_key):
                 pass
             os.makedirs("/mnt/vsahre_tmp/")
             print("加密模式为：KeyWord，开始加密")
-            enc_cmd = """tar -czvf - %s | openssl enc -aes-256-cbc -salt -k %s -out /mnt/vsahre_tmp/encryped-files.tar.gz""" % (file_path,str(encrypt_key))
+            enc_cmd = """tar -czvf - %s | openssl enc -aes-256-cbc -salt -k %s -out /mnt/vsahre_tmp/encrypted-files.tar.gz""" % (file_path,str(encrypt_key))
             subprocess.run(enc_cmd, shell=True)
             ipfs_add_cmd = """ipfs add -r /mnt/vsahre_tmp/"""
             ipfs_cli_output = str(subprocess.check_output(ipfs_add_cmd.split()), "utf-8")
@@ -96,7 +96,7 @@ def get_cid(file_path,encrypt_mode,encrypt_key):
             print("加密模式为：公私钥，开始加密")
             keygen_cmd = """openssl rand -base64 64 > /mnt/vsahre_tmp/file.rand"""
             subprocess.run(keygen_cmd, shell=True)
-            enc_cmd = """tar -czvf - %s | openssl enc -aes-256-cbc -salt -k file:/mnt/vsahre_tmp/file.rand -out /mnt/vsahre_tmp/encryped-files.tar.gz""" % file_path
+            enc_cmd = """tar -czvf - %s | openssl enc -aes-256-cbc -salt -k file:/mnt/vsahre_tmp/file.rand -out /mnt/vsahre_tmp/encrypted-files.tar.gz""" % file_path
             subprocess.run(enc_cmd, shell=True)
             enc_rand = """openssl rsautl -encrypt -inkey %s -pubin -in /mnt/vsahre_tmp/file.rand -out /mnt/vsahre_tmp/file.rand.enc""" % encrypt_key
             subprocess.run(enc_rand, shell=True)

@@ -87,7 +87,7 @@ root@devmachine:~# vsharecloud-oneclick --<参数名称>=<参数>
 - --gcmode,-gc
     - 是否清理缓存，设定为`y`则清理 | 默认值为 `n` ,长时间不清理IPFS缓存可能会爆硬盘（滑稽
 - --minerid,-mid
-    - MinerID，即目标储存节点的ID | 默认值为 `None`
+    - MinerID，即目标储存节点的ID，仅在模式为2的时候有效 | 默认值为 `None`
 - --dealtimes,-n
     - 订单发起数量，仅在模式为3的时候有效 | 默认值为 `3`
 - --maxbudget 
@@ -126,7 +126,7 @@ openssl rsautl -decrypt -inkey private.key -in file.rand.enc -out file.rand
 ```
 - 使用解密后的随机数文件解密文件
 ```
-openssl enc -d -aes-256-cbc -k file:file.rand -in encryped-files.tar.gz | tar xzvf -
+openssl enc -d -aes-256-cbc -k file:file.rand -in encrypted-files.tar.gz | tar xzvf -
 ```
 ### 社区：
 - 频道：https://t.me/vsharebetter
