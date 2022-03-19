@@ -134,10 +134,10 @@ def get_vshare_nodeid():
     print("已选取到节点：%s" % minerid)
     return minerid
 
-def backup_cid(cid,cid_saving_path):
+def backup_cid(cid,minerid,cid_saving_path):
     if cid_saving_path != None:
         f = open("%s/vshare_cids.md" % cid_saving_path,'a')
-        f.write(str(cid)+ "|" + str(int(time.time())))
+        f.write("|"+str(cid)+"|"+str(minerid)+"|"+ str(int(time.time()))+"|")
         f.write('\n')
     else:
         pass
@@ -167,7 +167,7 @@ if mode == "1":
     cmd = "expect /opt/vsharecloud-tools/scripts/single_deal.sh %s %s %s" % (cid, deal_duration, minerid)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
-    backup_cid(cid,cid_saving_path)
+    backup_cid(cid,minerid,cid_saving_path)
     if if_gc == "y":
         ipfs_gc(cid)
     else:
@@ -177,7 +177,7 @@ elif mode == "2":
     cmd = "expect /opt/vsharecloud-tools/scripts/single_deal.sh %s %s %s" % (cid, deal_duration, minerid)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
-    backup_cid(cid,cid_saving_path)
+    backup_cid(cid,minerid,cid_saving_path)
     if if_gc == "y":
         ipfs_gc(cid)
     else:
@@ -187,7 +187,7 @@ elif mode == "3":
     cmd = "expect /opt/vsharecloud-tools/scripts/global_deal.sh %s %s %s %s" % (cid, deal_duration, max_budget, deal_times)
     subprocess.run(cmd, shell=True)
     print("交易已发起，请通过命令 lotus client list-deals 查询交易状态")
-    backup_cid(cid,cid_saving_path)
+    backup_cid(cid,minerid,cid_saving_path)
     if if_gc == "y":
         ipfs_gc(cid)
     else:
