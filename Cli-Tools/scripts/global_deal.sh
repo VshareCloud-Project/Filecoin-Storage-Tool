@@ -29,5 +29,5 @@ send "${deals}\r"
 expect "Accept "
 send "yes\r"
 #结束
-interact
+expect eof
 exit

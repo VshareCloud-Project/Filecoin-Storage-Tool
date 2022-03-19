@@ -1,5 +1,4 @@
 #!/bin/bash
-# v1.0.0
 echo=echo
 for cmd in echo /bin/echo; do
     $cmd >/dev/null 2>&1 || continue

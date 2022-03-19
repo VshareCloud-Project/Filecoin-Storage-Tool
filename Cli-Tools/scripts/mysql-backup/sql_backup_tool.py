@@ -65,7 +65,7 @@ for db in dbs:
         if dbname=="mysql" or dbname=="performance_schema" or dbname=="information_schema" or dbname=="sys":
             pass
         else:
-            cmd = "mysqldump -u%s -p%s %s > %s/%s.sql" % (sql_config['username'], sql_config['password'], dbname, packup_path, (sql_config['db']+"_"+timestr))
+            cmd = "mysqldump -u%s -p%s %s > %s/%s.sql" % (sql_config['username'], sql_config['password'], dbname, packup_path, (dbname+"_"+timestr))
             print(cmd)
             subprocess.run(cmd,shell=True)
     except Exception as error:
