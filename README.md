@@ -31,6 +31,21 @@ wget --no-check-certificate https://gateway.ipns.tech/ipns/vsharecloud-tools-ins
         - 执行 `lotus wallet list` 查看新的钱包地址
         - 在发起交易前，请确保该节点内的钱包具有足够的FIL余额来进行交易
         - 导出钱包秘钥的方法是 `lotus wallet export >> key.txt`
+    - Tips | 小技巧
+        - Filecoin的储存市场部分是使用单独的支付通道进行支付（以此来避免每次交易都要发起链上转账，从而导致过高的TPS消耗），所以还需要单独发起一笔储存市场“充值”转账，以确保自己的账户在储存市场已有足够资金来支付存储费用。否则会在每一次发起交易时，由lotus客户端单独发起一笔充值转账，这会导致不必要的链上Gas费消耗（往往可能是交易资金的好几倍）和占用公链资源。
+        
+        - 充值方法：
+        ```
+        lotus wallet market add --address <钱包地址> <充值金额>
+        ```
+        - 提取余额方法：
+        ```
+        lotus wallet market withdraw --address <钱包地址> <提取金额>
+        ```
+        - 查询自己在储存市场的余额：
+        ```
+        lotus state market balance <钱包地址>
+        ```
 - 4.开始储存交易
 ```
 root@devmachine:~# vsharecloud-cli
