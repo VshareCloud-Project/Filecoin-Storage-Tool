@@ -132,7 +132,7 @@ LimitRTTIME=infinity
 Environment=GOLOG_FILE=/var/log/lotus-lite-daemon.log
 Environment=GOLOG_LOG_FMT=json
 Environment=GOPROXY=https://goproxy.cn
-Environment=FULLNODE_API_INFO=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIl19.GF9HWsMl2maRvU2ra2JeEL7DrEK4LnGNIaOi9Ld91GY:/dns4/lotus-api.ipns.tech/tcp/80/http
+Environment=FULLNODE_API_INFO=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIl19.GF9HWsMl2maRvU2ra2JeEL7DrEK4LnGNIaOi9Ld91GY:/dns4/lotus-api.yeaosound.com/tcp/80/http
 ExecStart=/usr/local/bin/lotus daemon --lite
 Restart=always
 RestartSec=10
